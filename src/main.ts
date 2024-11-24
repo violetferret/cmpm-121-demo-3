@@ -102,8 +102,8 @@ function spawnCache(lat: number, lng: number) {
       .querySelector<HTMLButtonElement>("#collect")!
       .addEventListener("click", () => {
         collectCoin(cache, statusPanel);
-        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML =
-          cache.coins.toString();
+        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML = cache
+          .coins.toString();
       });
 
     // clicking 'deposit' button decrements the player's value and increments cache's value
@@ -111,8 +111,8 @@ function spawnCache(lat: number, lng: number) {
       .querySelector<HTMLButtonElement>("#deposit")!
       .addEventListener("click", () => {
         depositCoin(cache, statusPanel);
-        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML =
-          cache.coins.toString();
+        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML = cache
+          .coins.toString();
       });
 
     return popupDiv;
