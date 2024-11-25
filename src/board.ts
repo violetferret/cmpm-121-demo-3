@@ -1,4 +1,3 @@
-
 import leaflet from "leaflet";
 
 // interface for Cell type
@@ -49,13 +48,21 @@ export class Board {
     const resultCells: Cell[] = [];
     const originCell = this.getCellForPoint(point);
 
-    for (let tileLat = -this.tileVisibilityRadius; tileLat < this.tileVisibilityRadius; tileLat++) {
-        for (let tileLng = -this.tileVisibilityRadius; tileLng < this.tileVisibilityRadius; tileLng++) {
-            resultCells.push(this.getCanonicalCell({
-                lat: originCell.lat + tileLat,
-                lng: originCell.lng + tileLng
-            }));
-        }
+    for (
+      let tileLat = -this.tileVisibilityRadius;
+      tileLat < this.tileVisibilityRadius;
+      tileLat++
+    ) {
+      for (
+        let tileLng = -this.tileVisibilityRadius;
+        tileLng < this.tileVisibilityRadius;
+        tileLng++
+      ) {
+        resultCells.push(this.getCanonicalCell({
+          lat: originCell.lat + tileLat,
+          lng: originCell.lng + tileLng,
+        }));
+      }
     }
     return resultCells;
   }

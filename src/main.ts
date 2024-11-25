@@ -99,7 +99,7 @@ function spawnCache(cell: Cell) {
 
   // amount of coins to create
   cache.coins.length = Math.floor(
-    luck([cell.lat, cell.lng, "initialValue"].toString()) * 100
+    luck([cell.lat, cell.lng, "initialValue"].toString()) * 100,
   );
 
   // create serialized coins
@@ -132,8 +132,8 @@ function spawnCache(cell: Cell) {
       .querySelector<HTMLButtonElement>("#collect")!
       .addEventListener("click", () => {
         collectCoin(cache, statusPanel);
-        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML =
-          cache.coins.length.toString();
+        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML = cache
+          .coins.length.toString();
       });
 
     // clicking 'deposit' button decrements the player's value and increments cache's value
@@ -141,14 +141,14 @@ function spawnCache(cell: Cell) {
       .querySelector<HTMLButtonElement>("#deposit")!
       .addEventListener("click", () => {
         depositCoin(cache, statusPanel);
-        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML =
-          cache.coins.length.toString();
+        popupDiv.querySelector<HTMLSpanElement>("#value")!.innerHTML = cache
+          .coins.length.toString();
       });
 
     return popupDiv;
   });
-   // push to array of caches
-   cacheArray.push(cache);
+  // push to array of caches
+  cacheArray.push(cache);
 }
 
 // collects a coin from the cache and gives to player
