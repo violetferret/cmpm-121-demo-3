@@ -29,8 +29,8 @@ export class Board {
   }
 
   getCellForPoint(point: leaflet.LatLng): Cell {
-    const lat = point.lat / this.tileWidth;
-    const lng = point.lng / this.tileWidth;
+    const lat = Math.floor(point.lat / this.tileWidth);
+    const lng = Math.floor(point.lng / this.tileWidth);
     return this.getCanonicalCell({
       lat,
       lng,
@@ -38,7 +38,7 @@ export class Board {
   }
 
   getCellBounds(cell: Cell): leaflet.LatLngBounds {
-    return leaflet.LatLngBounds([
+    return leaflet.latLngBounds([
       [cell.lat * this.tileWidth, cell.lng * this.tileWidth],
       [(cell.lat + 1) * this.tileWidth, (cell.lng + 1) * this.tileWidth],
     ]);

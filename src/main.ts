@@ -80,6 +80,7 @@ statusPanel.innerHTML = "No coins yet...";
 // functions ---------------------------------------------------------------------------------------------------------
 // generate caches semi-randomly throughout map
 function generateCaches() {
+  console.log("hi?")
   const nearbyCells = board.getCellsNearPoint(OAKES_CLASSROOM);
 
   nearbyCells.forEach((cell) => {
@@ -98,12 +99,12 @@ function spawnCache(cell: Cell) {
   };
 
   // amount of coins to create
-  cache.coins.length = Math.floor(
+  const cacheCoinsAmnt = Math.floor(
     luck([cell.lat, cell.lng, "initialValue"].toString()) * 100,
   );
 
   // create serialized coins
-  for (let i = 0; i < cache.coins.length; i++) {
+  for (let i = 0; i < cacheCoinsAmnt; i++) {
     cache.coins.push({
       lat: cell.lat,
       lng: cell.lng,
@@ -114,8 +115,9 @@ function spawnCache(cell: Cell) {
   // get cache bounds from board class
   const cacheBounds = board.getCellBounds(cell);
 
+  console.log(board.getCellBounds(cell));
   // Add a rectangle to the map to represent the cache
-  const cacheRect = leaflet.rectangle(cacheBounds);
+  const cacheRect = leaflet.rectangle(board.getCellBounds(cell));
   cacheRect.addTo(map);
 
   // Handle interactions with the cache
