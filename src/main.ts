@@ -115,9 +115,8 @@ function spawnCache(cell: Cell) {
   // get cache bounds from board class
   const cacheBounds = board.getCellBounds(cell);
 
-  console.log(board.getCellBounds(cell));
   // Add a rectangle to the map to represent the cache
-  const cacheRect = leaflet.rectangle(board.getCellBounds(cell));
+  const cacheRect = leaflet.rectangle(cacheBounds);
   cacheRect.addTo(map);
 
   // Handle interactions with the cache
