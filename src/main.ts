@@ -28,6 +28,13 @@ interface Coin {
   serial: number;
 }
 
+// Add a marker to represent the player
+interface Player {
+  coords: leaflet.LatLng,
+  cell: Cell,
+  marker: leaflet.Marker
+}
+
 // Location of our classroom (as identified on Google Maps)
 const OAKES_CLASSROOM = leaflet.latLng(36.98949379578401, -122.06277128548504);
 
@@ -46,9 +53,6 @@ const map = leaflet.map(document.getElementById("map")!, {
   zoomControl: false,
   scrollWheelZoom: false,
 });
-
-// Add a marker to represent the player
-const playerMarker = leaflet.marker(OAKES_CLASSROOM);
 
 // Player's total amount of coins
 const playerCoins: Coin[] = [];
@@ -69,18 +73,74 @@ leaflet
   })
   .addTo(map);
 
-// identify player marker
-playerMarker.bindTooltip("That's you!");
-playerMarker.addTo(map);
-
 // Display the player's points
 const statusPanel = document.querySelector<HTMLDivElement>("#statusPanel")!; // element `statusPanel` is defined in index.html
 statusPanel.innerHTML = "No coins yet...";
 
+// player movement ---------------------------------------------------------------------------------------------------
+const player: Player = {
+  coords: OAKES_CLASSROOM,
+  cell: board.getCellForPoint(OAKES_CLASSROOM),
+  marker: leaflet.marker(OAKES_CLASSROOM)
+}
+
+// identify player marker
+player.marker.bindTooltip("That's you!");
+player.marker.addTo(map);
+
+// event that triggers when player moves
+const playerMoved = new Event("player-moved");
+
+// array of movement buttons
+console.log(document.querySelector<HTMLButtonElement>("north"))
+const movementButtons = [
+  {name: "north", button: document.getElementById("north")!}, 
+  {name: "south", button: document.getElementById("south")!}, 
+  {name: "east", button: document.getElementById("east")!}, 
+  {name: "west", button: document.getElementById("west")!}
+];
+
+// add click event listeners
+movementButtons.forEach((direction) => {
+  direction.button.addEventListener("click", () => {
+    switch (direction.name) {
+      case "north":
+        player.coords.lat += TILE_DEGREES;
+        break;
+      case "south":
+        player.coords.lat -= TILE_DEGREES;
+        break;
+      case "east":
+        player.coords.lng += TILE_DEGREES;
+        break;
+      case "west":
+        player.coords.lng -= TILE_DEGREES;
+        break;
+    }
+    document.dispatchEvent(playerMoved);
+  })
+})
+
+document.addEventListener("player-moved", () => {
+  movePlayer(player);
+})
+
+function movePlayer(player: Player) {
+  player.marker.remove();
+  player.marker = leaflet.marker(player.coords);
+  player.marker.bindTooltip(
+    `You are here: ${player.cell.lat}, ${player.cell.lng}`,
+  );
+  player.marker.addTo(map);
+  player.cell = board.getCellForPoint(player.coords);
+  map.setView(player.coords, map.getZoom());
+}
+
+
+
 // functions ---------------------------------------------------------------------------------------------------------
 // generate caches semi-randomly throughout map
 function generateCaches() {
-  console.log("hi?");
   const nearbyCells = board.getCellsNearPoint(OAKES_CLASSROOM);
 
   nearbyCells.forEach((cell) => {
