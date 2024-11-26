@@ -80,7 +80,7 @@ statusPanel.innerHTML = "No coins yet...";
 // functions ---------------------------------------------------------------------------------------------------------
 // generate caches semi-randomly throughout map
 function generateCaches() {
-  console.log("hi?")
+  console.log("hi?");
   const nearbyCells = board.getCellsNearPoint(OAKES_CLASSROOM);
 
   nearbyCells.forEach((cell) => {
